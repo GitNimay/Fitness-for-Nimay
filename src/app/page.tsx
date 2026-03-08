@@ -45,7 +45,7 @@ export default function Home() {
         <div className="flex items-center gap-2.5">
           <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Fitonist" className="w-full h-full object-contain p-0.5" />
+            <img src="/logo.svg" alt="Fitonist" className="w-full h-full object-contain p-0.5" />
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold tracking-tight leading-tight">Fitonist</span>

@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   title: "Fitonist — Daily Workout Tracker",
   description: "Track your fitness journey with a daily selfie and visual streaks.",
   icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
+    icon: '/logo.svg',
+    apple: '/logo.svg',
   },
 };
 
