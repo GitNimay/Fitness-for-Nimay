@@ -41,7 +41,7 @@ export default function CameraWidget({ onPhotoSaved }: CameraWidgetProps) {
     setSaved(false);
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user', width: { ideal: 1080 }, height: { ideal: 1920 } },
+        video: { facingMode: 'environment', width: { ideal: 1080 }, height: { ideal: 1920 } },
         audio: false,
       });
       setStream(mediaStream);
