@@ -10,8 +10,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Fitonist — Daily Workout Tracker",
   description: "Track your fitness journey with a daily selfie and visual streaks.",
-  manifest: undefined,
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
 };
+
 
 export const viewport: Viewport = {
   width: 'device-width',

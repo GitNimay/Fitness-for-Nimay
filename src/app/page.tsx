@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
 import CameraWidget from '@/components/CameraWidget';
 import GalleryView from '@/components/GalleryView';
 import AnalyticsDashboard from '@/components/AnalyticsDashboard';
@@ -44,8 +43,9 @@ export default function Home() {
       {/* ── Mobile Header ── */}
       <header className="flex items-center justify-between pt-1">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-black border border-white/10">
-            <Image src="/logo.png" alt="Fitonist" width={36} height={36} className="w-full h-full object-contain" />
+          <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="Fitonist" className="w-full h-full object-contain p-0.5" />
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold tracking-tight leading-tight">Fitonist</span>
