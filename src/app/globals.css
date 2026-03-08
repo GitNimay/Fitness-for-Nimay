@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  /* Backgrounds */
+  --color-app-bg: #050505;
+  --color-card-bg: #111113;
+  --color-card-elevated: #1c1c1f;
+  --color-card-hover: #222225;
+
+  /* Typography */
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #71717a;
+  --color-text-muted: #52525b;
+
+  /* Accents & Indicators */
+  --color-neon-green: #4ade80;
+  --color-neon-purple-start: #a855f7;
+  --color-neon-purple-end: #c084fc;
+  --color-neon-yellow: #fde047;
+  --color-neon-cyan: #22d3ee;
+  --color-error-red: #ef4444;
+
+  /* Fonts */
+  --font-inter: var(--font-inter);
+}
+
+@layer base {
+  :root {
+    --background: var(--color-app-bg);
+    --foreground: var(--color-text-primary);
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: contain;
+  }
+
+  /* Hide scrollbar for a cleaner mobile feel */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(17, 17, 19, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  
+  .glass-strong {
+    background: rgba(17, 17, 19, 0.92);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .neon-glow-purple {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.15), 0 0 60px rgba(168, 85, 247, 0.05);
+  }
+
+  .neon-glow-green {
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.15), 0 0 60px rgba(74, 222, 128, 0.05);
+  }
+
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
+  }
+}
