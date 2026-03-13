@@ -10,8 +10,8 @@ type CalendarDay = {
 };
 
 interface AnalyticsDashboardProps {
-  refreshKey?: number;
-  compact?: boolean;
+   refreshKey?: number;
+   compact?: boolean;
 }
 
 export default function AnalyticsDashboard({ refreshKey, compact }: AnalyticsDashboardProps) {
@@ -21,7 +21,7 @@ export default function AnalyticsDashboard({ refreshKey, compact }: AnalyticsDas
 
    useEffect(() => {
       setMounted(true);
-      
+
       const fetchData = async () => {
          setLoading(true);
          const days = compact ? 30 : 60;
@@ -81,14 +81,14 @@ export default function AnalyticsDashboard({ refreshKey, compact }: AnalyticsDas
 
    if (!mounted || loading) {
       return (
-         <div className="w-full flex flex-col gap-3 animate-pulse">
-            <div className="flex gap-2">
-               {[1,2,3,4].map(i => <div key={i} className="h-14 flex-1 bg-card-bg rounded-xl" />)}
+         <div className="w-full flex flex-col gap-5 animate-pulse">
+            <div className="grid grid-cols-4 gap-2">
+               {[1, 2, 3, 4].map(i => <div key={i} className="h-20 flex-1 border border-white/5" />)}
             </div>
             {!compact && (
-               <div className="flex flex-wrap gap-1 w-full">
+               <div className="flex flex-wrap gap-1 w-full mt-4">
                   {Array.from({ length: compact ? 30 : 60 }).map((_, i) => (
-                     <div key={i} className="w-3 h-3 rounded-[3px] bg-card-bg" />
+                     <div key={i} className="w-3.5 h-3.5 border border-white/5" />
                   ))}
                </div>
             )}
@@ -97,7 +97,7 @@ export default function AnalyticsDashboard({ refreshKey, compact }: AnalyticsDas
    }
 
    return (
-      <div className="w-full flex flex-col gap-3">
+      <div className="w-full flex flex-col gap-6">
          {/* Stats Cards */}
          <div className="grid grid-cols-4 gap-2">
             <StatCard value={currentStreak} label="Streak" highlight={currentStreak > 0} />
@@ -107,29 +107,26 @@ export default function AnalyticsDashboard({ refreshKey, compact }: AnalyticsDas
          </div>
 
          {/* Contribution Grid */}
-         <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-               <span className="text-[10px] text-text-muted font-medium uppercase tracking-wider">
-                  Last {compact ? 30 : 60} days
+         <div className="flex flex-col gap-3">
+            <div className="flex justify-between items-center border-b border-white/10 pb-2">
+               <span className="text-[9px] text-white/50 font-bold uppercase tracking-[0.2em]">
+                  Log — {compact ? 30 : 60}D
                </span>
-               <div className="flex items-center gap-1 text-[10px] text-text-muted">
-                  <div className="w-2.5 h-2.5 rounded-[3px] bg-card-elevated" />
-                  <span>Miss</span>
-                  <div className="w-2.5 h-2.5 rounded-[3px] bg-neon-purple-start" />
-                  <span>Post</span>
+               <div className="flex items-center gap-3 text-[8px] font-bold uppercase tracking-[0.2em] text-white/50">
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 border border-white/20" /> MISS</div>
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 bg-white" /> POST</div>
                </div>
             </div>
-            
-            <div className="flex flex-wrap gap-[5px]">
+
+            <div className="flex flex-wrap gap-1">
                {calendarData.map((day, i) => (
-                  <div 
-                     key={i} 
-                     title={`${format(day.date, 'MMM dd')} — ${day.hasPost ? '✅' : '❌'}`}
-                     className={`w-3 h-3 rounded-[3px] transition-all duration-500 ${
-                        day.hasPost 
-                           ? 'bg-neon-purple-start shadow-[0_0_6px_rgba(168,85,247,0.4)]' 
-                           : 'bg-card-elevated'
-                     }`}
+                  <div
+                     key={i}
+                     title={`${format(day.date, 'MMM dd')} — ${day.hasPost ? 'POST' : 'MISS'}`}
+                     className={`w-3.5 h-3.5 transition-all duration-500 border relative group ${day.hasPost
+                           ? 'bg-white border-white glow-white scale-[1.05] z-10 hover:scale-125'
+                           : 'bg-transparent border-white/10 hover:border-white/40'
+                        }`}
                   />
                ))}
             </div>
@@ -140,13 +137,12 @@ export default function AnalyticsDashboard({ refreshKey, compact }: AnalyticsDas
 
 function StatCard({ value, label, highlight }: { value: string | number; label: string; highlight?: boolean }) {
    return (
-      <div className={`flex flex-col items-center justify-center py-2.5 px-1 rounded-xl transition-colors ${
-         highlight ? 'bg-neon-purple-start/10 border border-neon-purple-start/20' : 'bg-card-elevated/50'
-      }`}>
-         <span className={`text-lg font-bold leading-tight ${highlight ? 'text-neon-purple-start' : 'text-text-primary'}`}>
+      <div className={`flex flex-col items-start justify-center py-4 px-3 border transition-all duration-300 ${highlight ? 'bg-white text-black border-white shadow-[0_5px_20px_-5px_rgba(255,255,255,0.3)]' : 'bg-transparent border-white/10 hover:border-white/30 text-white'
+         }`}>
+         <span className={`text-2xl font-black leading-none tracking-tighter ${highlight ? 'text-black' : 'text-white'}`}>
             {value}
          </span>
-         <span className="text-[9px] text-text-muted font-medium uppercase tracking-wider mt-0.5">
+         <span className={`text-[8px] font-bold uppercase tracking-[0.2em] mt-2 ${highlight ? 'text-black/60' : 'text-text-muted'}`}>
             {label}
          </span>
       </div>

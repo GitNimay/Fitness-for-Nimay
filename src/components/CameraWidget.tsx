@@ -11,7 +11,7 @@ interface CameraWidgetProps {
 export default function CameraWidget({ onPhotoSaved }: CameraWidgetProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
+
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -131,101 +131,112 @@ export default function CameraWidget({ onPhotoSaved }: CameraWidgetProps) {
   // ─── Permission denied state ───
   if (hasPermission === false) {
     return (
-      <div className="flex flex-col items-center justify-center p-6 text-center h-full gap-3">
-         <div className="w-14 h-14 rounded-2xl bg-error-red/10 flex items-center justify-center">
-           <X className="w-6 h-6 text-error-red" />
-         </div>
-         <p className="text-sm text-text-secondary">Camera access was denied</p>
-         <button onClick={startCamera} className="text-neon-cyan text-sm font-medium hover:underline">
-           Try Again
-         </button>
+      <div className="flex flex-col items-center justify-center p-6 text-center h-full gap-3 bg-black">
+        <div className="w-16 h-16 border border-white/20 flex items-center justify-center mix-blend-difference mb-2">
+          <X className="w-6 h-6 text-white" />
+        </div>
+        <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-text-muted">Camera Intercepted</p>
+        <button onClick={startCamera} className="text-white text-[10px] font-black tracking-widest uppercase border-b border-white hover:border-transparent transition-colors mt-2 pb-1">
+          Override Access
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden rounded-xl bg-black/40">
+    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-black">
       <canvas ref={canvasRef} className="hidden" />
 
       {/* Toast messages */}
       {error && (
-        <div className="absolute top-3 left-3 right-3 bg-error-red/15 border border-error-red/30 text-error-red px-3 py-2 rounded-xl text-[11px] z-50 backdrop-blur-sm">
-          {error}
+        <div className="absolute top-4 left-4 right-4 bg-black border border-error-red text-white px-4 py-3 text-[10px] uppercase tracking-widest font-bold z-50">
+          <span className="text-error-red mr-2">SYS_ERR:</span> {error}
         </div>
       )}
       {saved && !capturedImage && (
-        <div className="absolute top-3 left-3 right-3 bg-neon-green/10 border border-neon-green/20 text-neon-green px-3 py-2 rounded-xl text-[11px] z-50 backdrop-blur-sm font-medium">
-          ✅ Selfie saved to your gallery!
+        <div className="absolute top-4 left-4 right-4 bg-white border border-white text-black px-4 py-3 text-[10px] uppercase tracking-widest font-black z-50">
+          ✓ RECORD ARCHIVED
         </div>
       )}
 
       {/* ─── Captured Image Review ─── */}
       {capturedImage ? (
-        <div className="relative w-full h-full flex items-center justify-center">
-          <img src={capturedImage} alt="Captured Selfie" className="w-full h-full object-cover" />
-          
-          {/* Frosted bottom bar */}
-          <div className="absolute bottom-0 left-0 right-0 glass-strong py-5 flex justify-center gap-8">
-             <button onClick={retakePhoto} disabled={isUploading}
-                className="w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-50">
-                <RefreshCw className="w-5 h-5 text-white" />
-             </button>
-             <button onClick={uploadPhoto} disabled={isUploading}
-                className="w-14 h-14 rounded-2xl bg-neon-green flex items-center justify-center active:scale-95 transition-transform disabled:opacity-50 shadow-lg shadow-neon-green/25">
-                {isUploading ? (
-                   <Loader2 className="w-6 h-6 text-black animate-spin" />
-                ) : (
-                   <Check className="w-7 h-7 text-black" />
-                )}
-             </button>
+        <div className="relative w-full h-full flex items-center justify-center bg-black">
+          <img src={capturedImage} alt="Captured Selfie" className="w-full h-full object-cover grayscale" />
+
+          {/* Brutalist bottom bar */}
+          <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-md border-t border-white/20 p-5 flex justify-center gap-6">
+            <button onClick={retakePhoto} disabled={isUploading}
+              className="w-14 h-14 border border-white/20 bg-transparent flex items-center justify-center text-white hover:border-white transition-all disabled:opacity-50 group">
+              <RefreshCw className="w-5 h-5 group-hover:-rotate-90 transition-transform duration-500" />
+            </button>
+            <button onClick={uploadPhoto} disabled={isUploading}
+              className="w-14 h-14 bg-white border border-white flex items-center justify-center active:scale-95 transition-transform disabled:opacity-50 group glow-white">
+              {isUploading ? (
+                <Loader2 className="w-6 h-6 text-black animate-spin" />
+              ) : (
+                <Check className="w-7 h-7 text-black group-hover:scale-125 transition-transform" />
+              )}
+            </button>
           </div>
         </div>
       ) : (
-      /* ─── Live Viewfinder / Prompt ─── */
+        /* ─── Live Viewfinder / Prompt ─── */
         <div className="relative w-full h-full bg-black flex items-center justify-center">
           {stream ? (
             <>
-              <video ref={videoRef} autoPlay playsInline muted 
-                className="absolute inset-0 w-full h-full object-cover" />
-              
+              <video ref={videoRef} autoPlay playsInline muted
+                className="absolute inset-0 w-full h-full object-cover grayscale" />
+
+              {/* Architectural Frame Overlay */}
+              <div className="absolute inset-6 border border-white/20 pointer-events-none z-10 flex flex-col justify-between p-2">
+                <div className="flex justify-between w-full">
+                  <div className="w-2 h-2 border-t border-l border-white" />
+                  <div className="w-2 h-2 border-t border-r border-white" />
+                </div>
+                <div className="flex justify-between w-full">
+                  <div className="w-2 h-2 border-b border-l border-white" />
+                  <div className="w-2 h-2 border-b border-r border-white" />
+                </div>
+              </div>
+
               {/* Shutter Button */}
-              <div className="absolute bottom-6 left-0 right-0 flex justify-center z-10">
+              <div className="absolute bottom-8 left-0 right-0 flex justify-center z-20">
                 <button onClick={capturePhoto}
-                  className="w-[72px] h-[72px] rounded-full border-[3px] border-white/80 flex items-center justify-center active:scale-90 transition-transform">
-                   <div className="w-[60px] h-[60px] rounded-full bg-white active:bg-white/80 transition-colors" />
+                  className="w-20 h-20 border border-white flex items-center justify-center group active:scale-95 transition-all duration-300">
+                  <div className="w-16 h-16 bg-white group-hover:scale-90 transition-transform duration-300" />
                 </button>
               </div>
             </>
           ) : (
-             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-               {/* Subtle gradient background */}
-               <div className="absolute inset-0 bg-gradient-to-b from-neon-purple-start/5 via-transparent to-neon-purple-start/10" />
-               
-              <div className="z-10 text-center flex flex-col items-center gap-3">
-                 {alreadyPostedToday ? (
-                   <>
-                     <div className="w-16 h-16 rounded-2xl bg-neon-green/10 border border-neon-green/20 flex items-center justify-center neon-glow-green">
-                        <Check className="w-7 h-7 text-neon-green" />
-                     </div>
-                     <div>
-                        <h3 className="text-lg font-bold text-neon-green">Done for Today!</h3>
-                        <p className="text-xs text-text-muted mt-1">Come back tomorrow 💪</p>
-                     </div>
-                   </>
-                 ) : (
-                   <>
-                     <button onClick={startCamera} 
-                       className="w-16 h-16 rounded-2xl bg-card-elevated border border-neon-purple-start/30 flex items-center justify-center active:scale-95 transition-transform neon-glow-purple">
-                        <Camera className="w-7 h-7 text-neon-purple-start" />
-                     </button>
-                     <div>
-                        <h3 className="text-lg font-bold">Take Today&apos;s Selfie</h3>
-                        <p className="text-xs text-text-muted mt-1">Tap to open camera</p>
-                     </div>
-                   </>
-                 )}
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 bg-black z-0">
+              {/* Monochromatic background texture could go here, for now solid black */}
+
+              <div className="z-10 text-center flex flex-col items-center gap-6 p-6 border border-white/10 hover:border-white/30 transition-colors w-4/5 max-w-sm">
+                {alreadyPostedToday ? (
+                  <>
+                    <div className="w-16 h-16 border border-white flex items-center justify-center bg-white">
+                      <Check className="w-8 h-8 text-black" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter text-white relative z-10 w-fit mix-blend-difference">Capture Complete</h3>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted mt-2 mix-blend-difference z-10">Awaiting next cycle</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={startCamera}
+                      className="w-16 h-16 border border-white/30 flex items-center justify-center hover:border-white hover:bg-white hover:text-black transition-all group duration-300 text-white">
+                      <Camera className="w-7 h-7" />
+                    </button>
+                    <div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter text-white">Initialize Optics</h3>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted mt-2">Sys_Access required</p>
+                    </div>
+                  </>
+                )}
               </div>
-           </div>
+            </div>
           )}
         </div>
       )}

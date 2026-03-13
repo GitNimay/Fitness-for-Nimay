@@ -46,9 +46,9 @@ export default function GalleryView({ refreshKey, limit }: GalleryViewProps) {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-3">
         {Array.from({ length: limit || 6 }).map((_, i) => (
-          <div key={i} className="aspect-[3/4] rounded-xl bg-card-elevated animate-pulse" />
+          <div key={i} className="aspect-[3/4] border border-white/10 bg-black animate-pulse" />
         ))}
       </div>
     );
@@ -56,40 +56,40 @@ export default function GalleryView({ refreshKey, limit }: GalleryViewProps) {
 
   if (selfies.length === 0) {
     return (
-      <div className="w-full flex flex-col items-center justify-center py-10 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-card-elevated flex items-center justify-center mb-3">
-          <ImageOff className="w-6 h-6 text-text-muted" />
+      <div className="w-full flex flex-col items-center justify-center py-12 text-center border border-white/5 border-dashed">
+        <div className="w-16 h-16 border border-white/20 flex items-center justify-center mb-4">
+          <ImageOff className="w-6 h-6 text-white/50" />
         </div>
-        <h3 className="text-sm font-semibold mb-0.5">No selfies yet</h3>
-        <p className="text-[11px] text-text-muted">Take your first daily selfie to get started!</p>
+        <h3 className="text-xl font-black tracking-tighter uppercase mb-2">Void</h3>
+        <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-text-muted">Initiate first capture</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
       {selfies.map((s) => (
         <div
           key={s.id}
-          className="relative aspect-[3/4] rounded-xl overflow-hidden group cursor-pointer border border-white/5 hover:border-neon-purple-start/20 transition-all duration-300"
+          className="relative aspect-[3/4] overflow-hidden group cursor-pointer border border-white/10 hover:border-white transition-all duration-500 grayscale hover:grayscale-0"
         >
           <img
             src={s.image_url}
             alt={`Workout on ${s.created_at}`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
-          {/* Date overlay */}
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-2.5 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <p className="text-white font-semibold text-[11px] leading-tight">
+          {/* Stark overlay on hover */}
+          <div className="absolute inset-x-0 bottom-0 bg-black/80 px-3 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out border-t border-white/20 backdrop-blur-sm">
+            <p className="text-white font-black text-[10px] tracking-[0.2em] uppercase mb-1">
               {format(new Date(s.created_at), 'MMM dd')}
             </p>
-            <p className="text-white/50 text-[9px] leading-tight">
-              {format(new Date(s.created_at), 'hh:mm a')}
+            <p className="text-white/40 text-[9px] tracking-[0.3em] font-mono">
+              {format(new Date(s.created_at), 'HH:mm:ss')}
             </p>
           </div>
-          {/* Always-visible mini date badge */}
-          <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm rounded-md px-1.5 py-0.5">
-            <span className="text-[9px] font-medium text-white/80">
+          {/* Always-visible brutalist date badge */}
+          <div className="absolute top-0 right-0 bg-white text-black px-2.5 py-1.5">
+            <span className="text-[12px] font-black tracking-tighter leading-none">
               {format(new Date(s.created_at), 'dd')}
             </span>
           </div>
